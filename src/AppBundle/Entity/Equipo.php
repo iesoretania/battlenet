@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Validator;
 
@@ -103,6 +104,20 @@ class Equipo
      * @var string
      */
     private $ipMaquinaVirtualNucleo;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Anotacion", mappedBy="equipo")
+     * @var Collection|Anotacion[]
+     */
+    private $anotaciones;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->anotaciones = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -388,5 +403,38 @@ class Equipo
     public function getIpMaquinaVirtualNucleo()
     {
         return $this->ipMaquinaVirtualNucleo;
+    }
+
+    /**
+     * Add anotaciones
+     *
+     * @param Anotacion $anotacion
+     * @return Equipo
+     */
+    public function addAnotacion(Anotacion $anotacion)
+    {
+        $this->anotaciones[] = $anotacion;
+
+        return $this;
+    }
+
+    /**
+     * Remove anotaciones
+     *
+     * @param Anotacion $anotacion
+     */
+    public function removeAnotacion(Anotacion $anotacion)
+    {
+        $this->anotaciones->removeElement($anotacion);
+    }
+
+    /**
+     * Get anotaciones
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAnotaciones()
+    {
+        return $this->anotaciones;
     }
 }
