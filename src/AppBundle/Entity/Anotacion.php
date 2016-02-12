@@ -28,6 +28,12 @@ class Anotacion
     private $id;
 
     /**
+     * @ORM\Column(type="datetime")
+     * @var \DateTime
+     */
+    private $fechaHora;
+
+    /**
      * @ORM\ManyToOne(targetEntity="Equipo", inversedBy="anotaciones")
      * @ORM\JoinColumn(nullable=false)
      * @var Equipo
@@ -47,10 +53,10 @@ class Anotacion
     private $puntuacion;
 
     /**
-     * @ORM\Column(type="datetime")
-     * @var \DateTime
+     * @ORM\ManyToOne(targetEntity="Estado")
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $fechaHora;
+    private $estado;
 
     /**
      * Get id
@@ -134,10 +140,10 @@ class Anotacion
     /**
      * Set equipo
      *
-     * @param \AppBundle\Entity\Equipo $equipo
+     * @param Equipo $equipo
      * @return Anotacion
      */
-    public function setEquipo(\AppBundle\Entity\Equipo $equipo)
+    public function setEquipo(Equipo $equipo)
     {
         $this->equipo = $equipo;
 
@@ -147,10 +153,33 @@ class Anotacion
     /**
      * Get equipo
      *
-     * @return \AppBundle\Entity\Equipo 
+     * @return Equipo
      */
     public function getEquipo()
     {
         return $this->equipo;
+    }
+
+    /**
+     * Set estado
+     *
+     * @param Estado $estado
+     * @return Anotacion
+     */
+    public function setEstado(Estado $estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return Estado
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }
