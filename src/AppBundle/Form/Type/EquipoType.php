@@ -23,6 +23,7 @@ namespace AppBundle\Form\Type;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Image;
 
 class EquipoType extends AbstractType
 {
@@ -35,8 +36,19 @@ class EquipoType extends AbstractType
             ->add('nombre', null, [
                 'label' => 'Nombre del equipo'
             ])
-            ->add('emblema', 'Symfony\Component\Form\Extension\Core\Type\FileType', [
-                'label' => 'Emblema'
+            ->add('filename_emblema', 'Symfony\Component\Form\Extension\Core\Type\FileType', [
+                'mapped' => false,
+                'label' => 'Emblema',
+                'constraints' => [
+                    new Image([
+                        'allowPortrait' => false,
+                        'allowLandscape' => false,
+                        'allowSquare' => true,
+                        'maxSize' => '100K',
+                        'minHeight' => 100,
+                        'minWidth' => 100
+                    ])
+                ]
             ])
             ->add('participante1', null, [
                 'label' => 'Nombre del participante 1'

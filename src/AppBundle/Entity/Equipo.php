@@ -50,7 +50,6 @@ class Equipo
 
     /**
      * @ORM\Column(type="blob")
-     * @Validator\Image(allowPortrait=false, allowLandscape=false, allowSquare=true, maxSize="100K", minHeight="100", minWidth="100")
      */
     private $emblema;
 
@@ -192,7 +191,7 @@ class Equipo
     /**
      * Get emblema
      *
-     * @return string 
+     * @return string
      */
     public function getEmblema()
     {

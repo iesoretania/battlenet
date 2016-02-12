@@ -24,6 +24,7 @@ use AppBundle\Entity\Equipo;
 use AppBundle\Form\Type\EquipoType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 
 class RegistroController extends Controller
@@ -41,7 +42,10 @@ class RegistroController extends Controller
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Guardar el equipo en la base de datos
-            $strm = fopen($equipo->getEmblema()->getRealPath(),'rb');
+
+            /** @var File $filename */
+            $file = $form->get('filename_emblema')->getData();
+            $strm = fopen($file->getRealPath(),'rb');
             $equipo->setEmblema(stream_get_contents($strm));
             $this->getDoctrine()->getManager()->persist($equipo);
             $this->getDoctrine()->getManager()->flush();
