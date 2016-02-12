@@ -1,0 +1,9 @@
+{% extends 'layout.html.twig' %}
+
+{% block content %}
+    <h1 class="well">Registro en la competición</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button type="submit" class="btn btn-info"><i class="fa fa-pencil"></i> Registrar</button>
+    {{ form_end(form) }}
+{% endblock %}
