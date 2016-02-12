@@ -135,6 +135,12 @@ class Equipo
     private $anotaciones;
 
     /**
+     * @ORM\ManyToOne(targetEntity="Estado")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $estado;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -429,7 +435,7 @@ class Equipo
     }
 
     /**
-     * Add anotaciones
+     * Add anotacion
      *
      * @param Anotacion $anotacion
      * @return Equipo
@@ -442,11 +448,11 @@ class Equipo
     }
 
     /**
-     * Remove anotaciones
+     * Remove anotacion
      *
      * @param Anotacion $anotacion
      */
-    public function removeAnotacione(Anotacion $anotacion)
+    public function removeAnotacion(Anotacion $anotacion)
     {
         $this->anotaciones->removeElement($anotacion);
     }
@@ -459,5 +465,29 @@ class Equipo
     public function getAnotaciones()
     {
         return $this->anotaciones;
+    }
+
+
+    /**
+     * Set estado
+     *
+     * @param Estado $estado
+     * @return Equipo
+     */
+    public function setEstado(Estado $estado)
+    {
+        $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * Get estado
+     *
+     * @return Estado
+     */
+    public function getEstado()
+    {
+        return $this->estado;
     }
 }

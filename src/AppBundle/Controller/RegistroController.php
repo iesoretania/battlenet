@@ -34,21 +34,27 @@ class RegistroController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $equipo = new Equipo();
 
         $form = $this->createForm('AppBundle\Form\Type\EquipoType', $equipo);
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Guardar el equipo en la base de datos
 
+            // recuperar emblema y asociar estado "registrado"
             /** @var File $filename */
             $file = $form->get('filename_emblema')->getData();
             $strm = fopen($file->getRealPath(),'rb');
-            $equipo->setEmblema(stream_get_contents($strm));
-            $this->getDoctrine()->getManager()->persist($equipo);
-            $this->getDoctrine()->getManager()->flush();
+            $equipo
+                ->setEmblema(stream_get_contents($strm))
+                ->setEstado($em->getRepository('AppBundle:Estado')->find('regi'));
+
+            $em->persist($equipo);
+            $em->flush();
+
             $this->addFlash('success', 'Equipo registrado con éxito');
             return $this->redirectToRoute('form_registro');
         }

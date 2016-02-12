@@ -65,12 +65,6 @@ class Anotacion
     private $puntuacion;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Estado")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $estado;
-
-    /**
      * Get id
      *
      * @return integer 
@@ -170,28 +164,5 @@ class Anotacion
     public function getEquipo()
     {
         return $this->equipo;
-    }
-
-    /**
-     * Set estado
-     *
-     * @param Estado $estado
-     * @return Anotacion
-     */
-    public function setEstado(Estado $estado)
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
-
-    /**
-     * Get estado
-     *
-     * @return Estado
-     */
-    public function getEstado()
-    {
-        return $this->estado;
     }
 }
