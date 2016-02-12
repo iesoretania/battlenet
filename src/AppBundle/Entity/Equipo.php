@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: alumno
- * Date: 12/02/16
- * Time: 12:09
- */
 
 namespace AppBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Validator;
 
 /**
@@ -17,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Validator;
  * @package AppBundle\Entity
  *
  * @ORM\Entity()
+ * @UniqueEntity("nombre", message="Este nombre de equipo ya existe, elige otro")
  */
 class Equipo
 {
@@ -36,6 +32,7 @@ class Equipo
 
     /**
      * @ORM\Column(type="blob")
+     * @Validator\File(mimeTypes={ "image/png", "image/jpg", "image/jpeg" })
      */
     private $emblema;
 
@@ -43,19 +40,19 @@ class Equipo
      * @ORM\Column(type="string")
      * @var string
      */
-    private $integrante1;
+    private $participante1;
 
     /**
      * @ORM\Column(type="string")
      * @var string
      */
-    private $integrante2;
+    private $participante2;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      * @var string
      */
-    private $integrante3;
+    private $participante3;
 
     /**
      * @ORM\Column(type="text")
@@ -178,12 +175,12 @@ class Equipo
     /**
      * Set integrante1
      *
-     * @param string $integrante1
+     * @param string $participante1
      * @return Equipo
      */
-    public function setIntegrante1($integrante1)
+    public function setParticipante1($participante1)
     {
-        $this->integrante1 = $integrante1;
+        $this->participante1 = $participante1;
 
         return $this;
     }
@@ -193,20 +190,20 @@ class Equipo
      *
      * @return string 
      */
-    public function getIntegrante1()
+    public function getParticipante1()
     {
-        return $this->integrante1;
+        return $this->participante1;
     }
 
     /**
      * Set integrante2
      *
-     * @param string $integrante2
+     * @param string $participante2
      * @return Equipo
      */
-    public function setIntegrante2($integrante2)
+    public function setParticipante2($participante2)
     {
-        $this->integrante2 = $integrante2;
+        $this->participante2 = $participante2;
 
         return $this;
     }
@@ -216,20 +213,20 @@ class Equipo
      *
      * @return string 
      */
-    public function getIntegrante2()
+    public function getParticipante2()
     {
-        return $this->integrante2;
+        return $this->participante2;
     }
 
     /**
      * Set integrante3
      *
-     * @param string $integrante3
+     * @param string $participante3
      * @return Equipo
      */
-    public function setIntegrante3($integrante3)
+    public function setParticipante3($participante3)
     {
-        $this->integrante3 = $integrante3;
+        $this->participante3 = $participante3;
 
         return $this;
     }
@@ -239,9 +236,9 @@ class Equipo
      *
      * @return string 
      */
-    public function getIntegrante3()
+    public function getParticipante3()
     {
-        return $this->integrante3;
+        return $this->participante3;
     }
 
     /**

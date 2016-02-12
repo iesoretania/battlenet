@@ -21,7 +21,16 @@ class RegistroController extends Controller
 
         $form->handleRequest($request);
 
-        // replace this example code with whatever you need
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Guardar el equipo en la base de datos
+            $strm = fopen($equipo->getEmblema()->getRealPath(),'rb');
+            $equipo->setEmblema(stream_get_contents($strm));
+            $this->getDoctrine()->getManager()->persist($equipo);
+            $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Equipo registrado con éxito');
+            return $this->redirectToRoute('form_registro');
+        }
+
         return $this->render('registro/form.html.twig', [
             'form' => $form->createView()
         ]);

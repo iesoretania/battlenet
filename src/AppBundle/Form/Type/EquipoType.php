@@ -27,6 +27,16 @@ class EquipoType extends AbstractType
             ->add('emblema', 'Symfony\Component\Form\Extension\Core\Type\FileType', [
                 'label' => 'Emblema'
             ])
+            ->add('participante1', null, [
+                'label' => 'Nombre del participante 1'
+            ])
+            ->add('participante2', null, [
+                'label' => 'Nombre del participante 2'
+            ])
+            ->add('participante3', null, [
+                'label' => 'Nombre del participante 3 (opcional)',
+                'required' => false
+            ])
             ->add('ipMaquinaFisica1', null, [
                 'label' => 'IP Máquina Física 1'
             ])
