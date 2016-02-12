@@ -67,16 +67,16 @@ class EquipoType extends AbstractType
                 'label' => 'IP Máquina Física 2'
             ])
             ->add('ipMaquinaVirtualWS', null, [
-                'label' => 'IP Máquina Virtual Windows Server'
+                'label' => 'IP Enrutador'
             ])
             ->add('ipMaquinaVirtualFtp', null, [
-                'label' => 'IP Máquina Virtual FTP'
+                'label' => 'IP Arsenal'
             ])
             ->add('ipMaquinaVirtualWeb', null, [
-                'label' => 'IP Máquina Virtual Web'
+                'label' => 'IP Escudo deflector'
             ])
             ->add('ipMaquinaVirtualNucleo', null, [
-                'label' => 'IP Máquina Virtual Núcleo'
+                'label' => 'IP Puente de mando'
             ])
             ->add('rutaCargaExplosiva', null, [
                 'label' => 'Ruta de la carga explosiva'
