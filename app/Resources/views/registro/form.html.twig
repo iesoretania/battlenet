@@ -6,6 +6,11 @@
     <h1 class="well">Registro en la competición</h1>
     {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button type="submit" class="btn btn-info"><i class="fa fa-pencil"></i> Registrar equipo</button>
+    <div class="form-group">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-info"><i class="fa fa-pencil"></i> Registrar equipo</button>
+        </div>
+    </div>
     {{ form_end(form) }}
 {% endblock %}
