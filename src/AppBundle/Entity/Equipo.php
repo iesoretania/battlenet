@@ -25,25 +25,29 @@ class Equipo
     private $id;
 
     /**
-     * @ORM\Column(type="string")
+     * @ORM\Column(type="string", length=30)
+     * @Validator\Length(min="5", max="30")
+     * @Validator\NotBlank()
      * @var string
      */
     private $nombre;
 
     /**
      * @ORM\Column(type="blob")
-     * @Validator\File(mimeTypes={ "image/png", "image/jpg", "image/jpeg" })
+     * @Validator\Image(allowPortrait=false, allowLandscape=false, allowSquare=true, maxSize="100K", minHeight="100", minWidth="100")
      */
     private $emblema;
 
     /**
      * @ORM\Column(type="string")
+     * @Validator\NotBlank()
      * @var string
      */
     private $participante1;
 
     /**
      * @ORM\Column(type="string")
+     * @Validator\NotBlank()
      * @var string
      */
     private $participante2;
@@ -56,6 +60,7 @@ class Equipo
 
     /**
      * @ORM\Column(type="text")
+     * @Validator\NotBlank()
      * @var string
      */
     private $rutaCargaExplosiva;
@@ -63,6 +68,7 @@ class Equipo
     /**
      * @ORM\Column(type="string")
      * @Validator\Ip()
+     * @Validator\NotBlank()
      * @var string
      */
     private $ipMaquinaFisica1;
@@ -70,6 +76,7 @@ class Equipo
     /**
      * @ORM\Column(type="string")
      * @Validator\Ip()
+     * @Validator\NotBlank()
      * @var string
      */
     private $ipMaquinaFisica2;
@@ -77,6 +84,7 @@ class Equipo
     /**
      * @ORM\Column(type="string")
      * @Validator\Ip()
+     * @Validator\NotBlank()
      * @var string
      */
     private $ipMaquinaVirtualWS;
@@ -84,6 +92,7 @@ class Equipo
     /**
      * @ORM\Column(type="string")
      * @Validator\Ip()
+     * @Validator\NotBlank()
      * @var string
      */
     private $ipMaquinaVirtualFtp;
@@ -91,6 +100,7 @@ class Equipo
     /**
      * @ORM\Column(type="string")
      * @Validator\Ip()
+     * @Validator\NotBlank()
      * @var string
      */
     private $ipMaquinaVirtualWeb;
@@ -98,6 +108,7 @@ class Equipo
     /**
      * @ORM\Column(type="string")
      * @Validator\Ip()
+     * @Validator\NotBlank()
      * @var string
      */
     private $ipMaquinaVirtualNucleo;
