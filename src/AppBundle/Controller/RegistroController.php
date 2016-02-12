@@ -20,8 +20,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Codigo;
 use AppBundle\Entity\Equipo;
-use AppBundle\Form\Type\EquipoType;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\File;
@@ -38,7 +38,7 @@ class RegistroController extends Controller
 
         $equipo = new Equipo();
 
-        $form = $this->createForm('AppBundle\Form\Type\EquipoType', $equipo);
+        $form = $this->createForm('AppBundle\Form\Type\RegistroType', $equipo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -51,6 +51,13 @@ class RegistroController extends Controller
             $equipo
                 ->setEmblema(stream_get_contents($strm))
                 ->setEstado($em->getRepository('AppBundle:Estado')->find('regi'));
+
+            //marcar el código como utilizado
+            /** @var Codigo $token */
+            $token = $em->getRepository('AppBundle:Codigo')->findOneBy(['token' => $form->get('token')->getData()]);
+            $token
+                ->setEquipo($equipo)
+                ->setFechaRegistro(new \DateTime());
 
             $em->persist($equipo);
             $em->flush();

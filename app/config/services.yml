@@ -4,6 +4,11 @@ parameters:
 #    parameter_name: value
 
 services:
+    validator.app.valid_token:
+        class: AppBundle\Validator\Constraints\ValidTokenValidator
+        autowire: true
+        tags:
+            - { name: validator.constraint_validator, alias: valid_token }
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
