@@ -50,6 +50,7 @@ class Equipo
 
     /**
      * @ORM\Column(type="blob")
+     * @var resource
      */
     private $emblema;
 
@@ -149,6 +150,14 @@ class Equipo
     }
 
     /**
+     * Conversión del objeto a una cadena
+     */
+    public function __toString()
+    {
+        return $this->getNombre();
+    }
+
+    /**
      * Get id
      *
      * @return integer 
@@ -197,7 +206,7 @@ class Equipo
     /**
      * Get emblema
      *
-     * @return string
+     * @return resource
      */
     public function getEmblema()
     {

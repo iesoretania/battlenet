@@ -24,7 +24,7 @@ use AppBundle\Validator\Constraints\ValidToken;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\Length;
 
-class RegistroType extends EquipoType
+class RegistroEquipoType extends EquipoType
 {
     /**
      * {@inheritdoc}

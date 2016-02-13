@@ -48,7 +48,8 @@ class EquipoType extends AbstractType
                         'minHeight' => 100,
                         'minWidth' => 100
                     ])
-                ]
+                ],
+                'required' => $options['new']
             ])
             ->add('participante1', null, [
                 'label' => 'Nombre del participante 1'
@@ -90,7 +91,8 @@ class EquipoType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'AppBundle\Entity\Equipo'
+            'data_class' => 'AppBundle\Entity\Equipo',
+            'new' => false
         ]);
     }
 }

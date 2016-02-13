@@ -20,26 +20,24 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Codigo;
 use AppBundle\Entity\Equipo;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
-class RegistroController extends Controller
+class EquipoController extends Controller
 {
     /**
-     * @Route("/registro", name="form_registro", methods={"GET", "POST"})
+     * @Route("/equipo/detalles/{equipo}", name="form_equipo", methods={"GET", "POST"})
      */
-    public function indexAction(Request $request)
+    public function indexAction(Equipo $equipo, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $equipo = new Equipo();
-
-        $form = $this->createForm('AppBundle\Form\Type\RegistroEquipoType', $equipo, [
-            'new' => true
+        $form = $this->createForm('AppBundle\Form\Type\EquipoType', $equipo, [
+            'new' => false
         ]);
 
         $form->handleRequest($request);
@@ -47,30 +45,37 @@ class RegistroController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
             // Guardar el equipo en la base de datos
 
-            // recuperar emblema y asociar estado "registrado"
+            // recuperar emblema si se ha cambiado
             /** @var File $filename */
             $file = $form->get('filename_emblema')->getData();
-            $strm = fopen($file->getRealPath(),'rb');
-            $equipo
-                ->setEmblema(stream_get_contents($strm))
-                ->setEstado($em->getRepository('AppBundle:Estado')->find('regi'));
 
-            //marcar el código como utilizado
-            /** @var Codigo $token */
-            $token = $em->getRepository('AppBundle:Codigo')->findOneBy(['token' => $form->get('token')->getData()]);
-            $token
-                ->setEquipo($equipo)
-                ->setFechaRegistro(new \DateTime());
+            if ($file) {
+                $strm = fopen($file->getRealPath(), 'rb');
+                $equipo->setEmblema(stream_get_contents($strm));
+            }
 
             $em->persist($equipo);
             $em->flush();
 
-            $this->addFlash('success', 'Equipo registrado con éxito');
-            return $this->redirectToRoute('form_registro');
+            $this->addFlash('success', 'Cambios guardados con éxito');
+            return $this->redirectToRoute('form_equipo', ['equipo' => $equipo->getId()]);
         }
+        return $this->render('equipo/form.html.twig', array(
+            'form' => $form->createView(),
+            'equipo' => $equipo
+        ));
+    }
 
-        return $this->render('registro/form.html.twig', [
-            'form' => $form->createView()
-        ]);
+    /**
+     * @Route("/equipo/emblema/{equipo}", name="emblema_equipo", methods={"GET"})
+     */
+    public function getEmblemaAction(Equipo $equipo)
+    {
+        $callback = function () use ($equipo) {
+            echo stream_get_contents($equipo->getEmblema());
+        };
+        $response = new StreamedResponse($callback);
+        $response->headers->set('Content-Type', 'application/octet-stream');
+        return $response;
     }
 }
