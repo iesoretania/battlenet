@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Equipo;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\StreamedResponse;
@@ -11,6 +12,7 @@ class DefaultController extends Controller
 {
     /**
      * @Route("/emblema/{equipo}", name="emblema_equipo", methods={"GET"})
+     * @Cache(expires="+15 minutes", public=true)
      */
     public function getEmblemaAction(Equipo $equipo)
     {
