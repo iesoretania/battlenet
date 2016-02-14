@@ -27,7 +27,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Validator;
 
 /**
- * @ORM\Entity()
+ * @ORM\Entity(repositoryClass="EquipoRepository", )
  * @UniqueEntity("nombre", message="Este nombre de equipo ya existe, elige otro")
  */
 class Equipo
@@ -131,6 +131,7 @@ class Equipo
 
     /**
      * @ORM\OneToMany(targetEntity="Anotacion", mappedBy="equipo")
+     * @ORM\OrderBy({"fechaHora":"ASC"})
      * @var Collection|Anotacion[]
      */
     private $anotaciones;

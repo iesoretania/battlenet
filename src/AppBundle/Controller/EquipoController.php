@@ -67,6 +67,17 @@ class EquipoController extends Controller
     }
 
     /**
+     * @Route("/equipo/puntuacion/{equipo}", name="anotaciones_equipo", methods={"GET", "POST"})
+     */
+    public function anotacionIndexAction(Equipo $equipo, Request $request)
+    {
+        return $this->render('equipo/puntuacion.html.twig', array(
+            'equipo' => $equipo,
+            'puntuacion' => $this->getDoctrine()->getRepository('AppBundle:Equipo')->getPuntuacionEquipo($equipo)
+        ));
+    }
+
+    /**
      * @Route("/equipo/emblema/{equipo}", name="emblema_equipo", methods={"GET"})
      */
     public function getEmblemaAction(Equipo $equipo)
