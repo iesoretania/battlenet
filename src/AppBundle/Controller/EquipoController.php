@@ -20,7 +20,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Anotacion;
 use AppBundle\Entity\Equipo;
+use AppBundle\Form\Entity\AnotacionPredefinida;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\File;
@@ -71,9 +73,45 @@ class EquipoController extends Controller
      */
     public function anotacionIndexAction(Equipo $equipo, Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
+
+        $anotacionPredefinida = new AnotacionPredefinida();
+
+        $formPredefinido = $this->createForm('AppBundle\Form\Type\AnotacionPredefinidaType', $anotacionPredefinida);
+        $formPredefinido->handleRequest($request);
+
+        $anotacion = new Anotacion();
+        $anotacion
+            ->setEquipo($equipo);
+
+        $formPersonalizado = $this->createForm('AppBundle\Form\Type\AnotacionEquipoType', $anotacion);
+        $formPersonalizado->handleRequest($request);
+
+        if ($formPredefinido->isSubmitted() && $formPredefinido->isValid()) {
+            $anotacion
+                ->setPuntuacion($anotacionPredefinida->getConcepto()->getPuntuacion())
+                ->setConcepto($anotacionPredefinida->getConcepto()->getDescripcion());
+
+            $em->persist($anotacion);
+            $em->flush();
+
+            $this->addFlash('success', 'Cambios guardados con éxito');
+            return $this->redirect($request->getRequestUri());
+        }
+
+        if ($formPersonalizado->isSubmitted() && $formPersonalizado->isValid()) {
+            $em->persist($anotacion);
+            $em->flush();
+
+            $this->addFlash('success', 'Cambios guardados con éxito');
+            return $this->redirect($request->getRequestUri());
+        }
+
         return $this->render('equipo/puntuacion.html.twig', array(
+            'form_predefinido' => $formPredefinido->createView(),
+            'form_personalizado' => $formPersonalizado->createView(),
             'equipo' => $equipo,
-            'puntuacion' => $this->getDoctrine()->getRepository('AppBundle:Equipo')->getPuntuacionEquipo($equipo)
+            'puntuacion' => $em->getRepository('AppBundle:Equipo')->getPuntuacionEquipo($equipo)
         ));
     }
 

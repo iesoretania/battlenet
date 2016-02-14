@@ -20,9 +20,11 @@
 
 namespace AppBundle\Form\Type;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AnotacionType extends AnotacionEquipoType
+class AnotacionPredefinidaType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -30,13 +32,20 @@ class AnotacionType extends AnotacionEquipoType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fechaHora', null, [
-                'label' => 'Fecha y hora'
+            ->add('concepto', 'Symfony\Bridge\Doctrine\Form\Type\EntityType', [
+                'class' => 'AppBundle\Entity\Concepto',
+                'label' => 'Concepto'
             ])
-            ->add('equipo', null, [
-                'label' => 'Equipo'
-            ]);
+        ;
+    }
 
-        parent::buildForm($builder, $options);
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Form\Entity\AnotacionPredefinida'
+        ]);
     }
 }

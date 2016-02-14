@@ -20,9 +20,11 @@
 
 namespace AppBundle\Form\Type;
 
+use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AnotacionType extends AnotacionEquipoType
+class AnotacionEquipoType extends AbstractType
 {
     /**
      * {@inheritdoc}
@@ -30,13 +32,22 @@ class AnotacionType extends AnotacionEquipoType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fechaHora', null, [
-                'label' => 'Fecha y hora'
+            ->add('concepto', null, [
+                'label' => 'Concepto'
             ])
-            ->add('equipo', null, [
-                'label' => 'Equipo'
-            ]);
+            ->add('puntuacion', 'Symfony\Component\Form\Extension\Core\Type\IntegerType', [
+                'label' => 'Puntuación'
+            ])
+        ;
+    }
 
-        parent::buildForm($builder, $options);
+    /**
+     * {@inheritdoc}
+     */
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => 'AppBundle\Entity\Anotacion'
+        ]);
     }
 }

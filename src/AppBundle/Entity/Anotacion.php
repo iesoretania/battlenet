@@ -165,4 +165,9 @@ class Anotacion
     {
         return $this->equipo;
     }
+
+    public function __construct()
+    {
+        $this->setFechaHora(new \DateTime());
+    }
 }

@@ -5,30 +5,66 @@
 {% block content %}
     <h1 class="well">{{ equipo }}</h1>
     <img src="{{ path('emblema_equipo', {'equipo': equipo.id}) }}" width="100" height="100"/>
-    <h2>Puntuación actual: <span class="puntuacion">{{ puntuacion | default('0') }}</span></h2>
-    <table class="table table-bordered table-responsive table-hover">
-        <thead>
-            <tr>
-                <th class="col-sm-2">Fecha/hora</th>
-                <th class="col-sm-7">Concepto</th>
-                <th class="col-sm-2">Puntuación</th>
-                <th class="col-sm-1"></th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for anotacion in equipo.anotaciones %}
-            <tr>
-                <td>{{ anotacion.fechaHora | date('d/m/Y H:s') }}</td>
-                <td>{{ anotacion.concepto }}</td>
-                <td>{{ anotacion.puntuacion }}</td>
-                <td><a href="" class="btn btn-xs btn-warning"><i class="fa fa-pencil"> Modificar</i></a></td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">No hay puntuaciones asociadas</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3>Puntuación actual: <span class="puntuacion">{{ puntuacion | default('0') }}</span></h3>
+        </div>
+        <table class="table table-bordered table-responsive table-hover">
+            <thead>
+                <tr>
+                    <th class="col-sm-2">Fecha/hora</th>
+                    <th class="col-sm-7">Concepto</th>
+                    <th class="col-sm-2">Puntuación</th>
+                    <th class="col-sm-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for anotacion in equipo.anotaciones %}
+                <tr>
+                    <td>{{ anotacion.fechaHora | date('d/m/Y H:m:s') }}</td>
+                    <td>{{ anotacion.concepto }}</td>
+                    <td>{{ (anotacion.puntuacion > 0 ? '+') ~ anotacion.puntuacion }}</td>
+                    <td><a href="" class="btn btn-xs btn-warning"><i class="fa fa-pencil"> Modificar</i></a></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="4">No hay puntuaciones asociadas</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3>Añadir puntuación predefinida</h3>
+        </div>
+        <div class="panel-body">
+            {{ form_start(form_predefinido) }}
+            {{ form_widget(form_predefinido) }}
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Crear anotación de puntuación</button>
+                </div>
+            </div>
+            {{ form_end(form_predefinido) }}
+        </div>
+    </div>
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <h3>Añadir puntuación personalizada</h3>
+        </div>
+        <div class="panel-body">
+            {{ form_start(form_personalizado) }}
+            {{ form_widget(form_personalizado) }}
+            <div class="form-group">
+                <div class="col-sm-2"></div>
+                <div class="col-sm-10">
+                    <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Crear anotación de puntuación</button>
+                </div>
+            </div>
+            {{ form_end(form_personalizado) }}
+        </div>
+    </div>
     <a href="" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al listado de equipos</a>
 {% endblock %}

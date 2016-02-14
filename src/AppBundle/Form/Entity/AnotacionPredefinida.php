@@ -18,25 +18,40 @@
   along with this program.  If not, see [http://www.gnu.org/licenses/].
 */
 
-namespace AppBundle\Form\Type;
 
-use Symfony\Component\Form\FormBuilderInterface;
+namespace AppBundle\Form\Entity;
 
-class AnotacionType extends AnotacionEquipoType
+use AppBundle\Entity\Concepto;
+use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Validator;
+
+class AnotacionPredefinida
 {
     /**
-     * {@inheritdoc}
+     * @var Concepto
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder
-            ->add('fechaHora', null, [
-                'label' => 'Fecha y hora'
-            ])
-            ->add('equipo', null, [
-                'label' => 'Equipo'
-            ]);
+    private $concepto;
 
-        parent::buildForm($builder, $options);
+    /**
+     * Set concepto
+     *
+     * @param string $concepto
+     * @return AnotacionPredefinida
+     */
+    public function setConcepto($concepto)
+    {
+        $this->concepto = $concepto;
+
+        return $this;
+    }
+
+    /**
+     * Get concepto
+     *
+     * @return Concepto
+     */
+    public function getConcepto()
+    {
+        return $this->concepto;
     }
 }

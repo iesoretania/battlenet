@@ -107,4 +107,10 @@ class Concepto
     {
         return $this->puntuacion;
     }
+
+    public function __toString()
+    {
+        $puntos = $this->getPuntuacion();
+        return $this->getDescripcion() . ' (' . ($puntos>0 ? '+' : '') . $puntos . ' puntos)';
+    }
 }

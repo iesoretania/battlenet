@@ -20,6 +20,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
+use AppBundle\Entity\Concepto;
 use AppBundle\Entity\Estado;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
@@ -45,6 +46,23 @@ class InicialData extends AbstractFixture implements OrderedFixtureInterface
                 ->setOrden($it);
 
             $manager->persist($estado);
+        }
+
+        $conceptos = [
+            ['Construcción del servidor principal con sistema de enrutamiento', 1000],
+            ['Construcción del servidor FTP (Arsenal) y la bomba lógica', 500],
+            ['Construcción del servidor web (Escudo) con los datos de acceso', 500],
+            ['Construcción del servidor Núcleo', 500],
+            ['Base StarKiller enemiga destruída', 5000]
+        ];
+
+        foreach($conceptos as $datos) {
+            $concepto = new Concepto();
+            $concepto
+                ->setDescripcion($datos[0])
+                ->setPuntuacion($datos[1]);
+
+            $manager->persist($concepto);
         }
 
         $manager->flush();
