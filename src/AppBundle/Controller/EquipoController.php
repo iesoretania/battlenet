@@ -55,8 +55,20 @@ class EquipoController extends Controller
             $file = $form->get('filename_emblema')->getData();
 
             if ($file) {
+                // leer fichero, covertirlo en una imagen png de 300x300 y guardarla
                 $strm = fopen($file->getRealPath(), 'rb');
-                $equipo->setEmblema(stream_get_contents($strm));
+                $imagen = imagecreatefromstring(stream_get_contents($strm));
+                $ancho = imagesx($imagen);
+                $tmp = imagecreatetruecolor(300, 300);
+                imagesavealpha($tmp, true);
+                imagecopyresampled($tmp, $imagen, 0, 0, 0, 0, 300, 300, $ancho, $ancho);
+                ob_start();
+                imagepng($tmp);
+                $datos = ob_get_contents();
+                ob_end_clean();
+                $equipo->setEmblema($datos);
+                imagedestroy($tmp);
+                imagedestroy($imagen);
             }
 
             $em->persist($equipo);
@@ -128,7 +140,7 @@ class EquipoController extends Controller
             echo stream_get_contents($equipo->getEmblema());
         };
         $response = new StreamedResponse($callback);
-        $response->headers->set('Content-Type', 'application/octet-stream');
+        $response->headers->set('Content-Type', 'image/png');
         return $response;
     }
 

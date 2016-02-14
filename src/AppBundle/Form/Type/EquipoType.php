@@ -44,7 +44,7 @@ class EquipoType extends AbstractType
                         'allowPortrait' => false,
                         'allowLandscape' => false,
                         'allowSquare' => true,
-                        'maxSize' => '100K',
+                        'maxSize' => '2M',
                         'minHeight' => 100,
                         'minWidth' => 100
                     ])
