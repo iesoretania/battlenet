@@ -1,0 +1,46 @@
+{% extends 'layout.html.twig' %}
+
+{% block title "Clasificación" %}
+
+{% block override %}
+<body class="marcador">
+    <div class="container marcador">
+        <img src="{{ asset('imagenes/logo.png') }}" id="logo" alt="Logo competición">
+        <div id="titulo-marcador">Clasificación</div>
+        <div class="panel panel-default">
+            <table class="table table-bordered table-responsive table-hover equipos clasificacion">
+                <thead>
+                    <tr>
+                        <th class="col-sm-1">Posición</th>
+                        <th class="col-sm-4">Nombre</th>
+                        <th class="col-sm-1">Puntuación</th>
+                        <th class="col-sm-6">Participantes</th>
+                        <th class="col-sm-1">Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% set posicion = 0 %}
+                {% set ultimos_puntos = null %}
+                {% for fila in equipos %}
+                    {% if fila['puntos'] != ultimos_puntos %}
+                        {% set posicion = posicion + 1 %}
+                        {% set ultimos_puntos = fila['puntos'] %}
+                    {% endif %}
+                    <tr {% if posicion == 1 %} class="ganador"{% endif %}>
+                        <td class="posicion">{{ posicion }}</td>
+                        <td><img src="{{ path('emblema_equipo', {'equipo': fila['equipo'].id}) }}" width="50" height="50">{{ fila['equipo'].nombre }}</td>
+                        <td>{{ (fila['puntos'] > 0 ? '+') ~ fila['puntos'] | default('0') }}</td>
+                        <td>{{ fila['equipo'].participante1 }}, {{ fila['equipo'].participante2 }}{{ fila['equipo'].participante3 ? ', ' ~ fila['equipo'].participante3 }}</td>
+                        <td>{{ fila['equipo'].estado }}</td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="4">No hay equipos registrados</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+{% endblock %}

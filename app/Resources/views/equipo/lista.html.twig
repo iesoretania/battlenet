@@ -4,7 +4,7 @@
 
 {% block content %}
     <h1 class="well">Equipos participantes</h1>
-    <table id="equipos" class="table table-bordered table-responsive table-hover">
+    <table class="table table-bordered table-responsive table-hover equipos">
         <thead>
             <tr>
                 <th class="col-sm-5">Nombre</th>
@@ -22,8 +22,8 @@
                 <td>{{ (fila['puntos'] > 0 ? '+') ~ fila['puntos'] | default('0') }}</td>
                 <td>{{ fila['equipo'].estado }}</td>
                 <td>
-                    <a href="{{ path('form_equipo', {'equipo': fila['equipo'].id}) }}" class="btn btn-xs btn-warning btn-block"><i class="fa fa-pencil"> Modificar</i></a>
                     <a href="{{ path('anotaciones_equipo', {'equipo': fila['equipo'].id}) }}" class="btn btn-xs btn-info btn-block"><i class="fa fa-list-ol"> Puntuación</i></a>
+                    <a href="{{ path('form_equipo', {'equipo': fila['equipo'].id}) }}" class="btn btn-xs btn-warning btn-block"><i class="fa fa-pencil"> Modificar</i></a>
                 </td>
             </tr>
         {% else %}

@@ -2,20 +2,35 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Equipo;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class DefaultController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/emblema/{equipo}", name="emblema_equipo", methods={"GET"})
      */
-    public function indexAction(Request $request)
+    public function getEmblemaAction(Equipo $equipo)
     {
-        // replace this example code with whatever you need
-        return $this->render('default/index.html.twig', array(
-            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-        ));
+        $callback = function () use ($equipo) {
+            echo stream_get_contents($equipo->getEmblema());
+        };
+        $response = new StreamedResponse($callback);
+        $response->headers->set('Content-Type', 'image/png');
+        return $response;
+    }
+
+    /**
+     * @Route("/", name="marcador")
+     */
+    public function marcadorAction()
+    {
+        $equipos = $this->getDoctrine()->getManager()->getRepository('AppBundle:Equipo')->getTableroPuntuacion();
+        return $this->render('default/marcador.html.twig', [
+            'equipos' => $equipos,
+            'refresco' => 15
+        ]);
     }
 }

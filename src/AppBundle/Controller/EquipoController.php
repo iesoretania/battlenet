@@ -27,7 +27,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
  * @Route("/equipo")
@@ -143,19 +142,6 @@ class EquipoController extends Controller
             'equipo' => $equipo,
             'puntuacion' => $em->getRepository('AppBundle:Equipo')->getPuntuacionEquipo($equipo)
         ));
-    }
-
-    /**
-     * @Route("/emblema/{equipo}", name="emblema_equipo", methods={"GET"})
-     */
-    public function getEmblemaAction(Equipo $equipo)
-    {
-        $callback = function () use ($equipo) {
-            echo stream_get_contents($equipo->getEmblema());
-        };
-        $response = new StreamedResponse($callback);
-        $response->headers->set('Content-Type', 'image/png');
-        return $response;
     }
 
     /**
