@@ -31,6 +31,7 @@
                 {{ flashMessage }}
             </div>
         {% endfor %}
+        {% block cabecera %}<img src="{{ asset('imagenes/logo.png') }}" id="logo" alt="Logo competición">{% endblock %}
         {% block content %}{% endblock %}
     </div>
 
