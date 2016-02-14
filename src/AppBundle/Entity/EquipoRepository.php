@@ -24,20 +24,36 @@ use Doctrine\ORM\EntityRepository;
 
 class EquipoRepository extends EntityRepository
 {
-    public function getTableroPuntuacion()
+    public function getTableroPuntuacionQueryBuilder()
     {
         $em = $this->getEntityManager();
 
         $tablero = $em->getRepository('AppBundle:Equipo')
             ->createQueryBuilder('e')
-            ->select('e')
-            ->addSelect('SUM(a.puntuacion)')
+            ->select('e AS equipo')
+            ->addSelect('SUM(a.puntuacion) AS puntos')
             ->leftJoin('AppBundle:Anotacion', 'a', 'WITH', 'e.id = a.equipo')
-            ->groupBy('a.equipo')
+            ->groupBy('a.equipo');
+
+        return $tablero;
+    }
+
+    public function getTableroPuntuacion()
+    {
+        return $this->getTableroPuntuacionQueryBuilder()
+            ->orderBy('puntos', 'DESC')
             ->getQuery()
             ->getResult();
 
-        return $tablero;
+    }
+
+    public function getEquiposPuntuacion()
+    {
+        return $this->getTableroPuntuacionQueryBuilder()
+            ->orderBy('e.nombre', 'ASC')
+            ->getQuery()
+            ->getResult();
+
     }
 
     public function getPuntuacionEquipo(Equipo $equipo)

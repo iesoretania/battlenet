@@ -50,9 +50,23 @@ class RegistroController extends Controller
             // recuperar emblema y asociar estado "registrado"
             /** @var File $filename */
             $file = $form->get('filename_emblema')->getData();
-            $strm = fopen($file->getRealPath(),'rb');
+
+            // leer fichero, covertirlo en una imagen png de 300x300 y guardarla
+            $strm = fopen($file->getRealPath(), 'rb');
+            $imagen = imagecreatefromstring(stream_get_contents($strm));
+            $ancho = imagesx($imagen);
+            $tmp = imagecreatetruecolor(300, 300);
+            imagesavealpha($tmp, true);
+            imagecopyresampled($tmp, $imagen, 0, 0, 0, 0, 300, 300, $ancho, $ancho);
+            ob_start();
+            imagepng($tmp);
+            $datos = ob_get_contents();
+            ob_end_clean();
+            $equipo->setEmblema($datos);
+            imagedestroy($tmp);
+            imagedestroy($imagen);
+
             $equipo
-                ->setEmblema(stream_get_contents($strm))
                 ->setEstado($em->getRepository('AppBundle:Estado')->find('regi'));
 
             //marcar el código como utilizado

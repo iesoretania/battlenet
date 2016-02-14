@@ -118,4 +118,9 @@ class Estado
     {
         return $this->orden;
     }
+
+    public function __toString()
+    {
+        return $this->getDescripcion();
+    }
 }

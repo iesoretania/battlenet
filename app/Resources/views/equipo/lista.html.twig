@@ -1,0 +1,37 @@
+{% extends 'layout.html.twig' %}
+
+{% block title "Listado de equipos" %}
+
+{% block content %}
+    <h1 class="well">Equipos participantes</h1>
+    <table id="equipos" class="table table-bordered table-responsive table-hover">
+        <thead>
+            <tr>
+                <th class="col-sm-5">Nombre</th>
+                <th class="col-sm-6">Participantes</th>
+                <th class="col-sm-1">Puntuación</th>
+                <th class="col-sm-1">Estado</th>
+                <th class="col-sm-1"></th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fila in equipos %}
+            <tr>
+                <td><img src="{{ path('emblema_equipo', {'equipo': fila['equipo'].id}) }}" width="50" height="50">{{ fila['equipo'].nombre }}</td>
+                <td>{{ fila['equipo'].participante1 }}, {{ fila['equipo'].participante2 }}{{ fila['equipo'].participante3 ? ', ' ~ fila['equipo'].participante3 }}</td>
+                <td>{{ (fila['puntos'] > 0 ? '+') ~ fila['puntos'] | default('0') }}</td>
+                <td>{{ fila['equipo'].estado }}</td>
+                <td>
+                    <a href="{{ path('form_equipo', {'equipo': fila['equipo'].id}) }}" class="btn btn-xs btn-warning btn-block"><i class="fa fa-pencil"> Modificar</i></a>
+                    <a href="{{ path('anotaciones_equipo', {'equipo': fila['equipo'].id}) }}" class="btn btn-xs btn-info btn-block"><i class="fa fa-list-ol"> Puntuación</i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">No hay equipos registrados</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <a href="" class="btn btn-success"><i class="fa fa-plus"></i> Crear un equipo nuevo</a>
+{% endblock %}

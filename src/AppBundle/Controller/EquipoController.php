@@ -35,9 +35,23 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 class EquipoController extends Controller
 {
     /**
+     * @Route("/", name="lista_equipo", methods={"GET"})
+     */
+    public function indexAction()
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $equipos = $em->getRepository('AppBundle:Equipo')->getEquiposPuntuacion();
+
+        return $this->render('equipo/lista.html.twig', array(
+            'equipos' => $equipos
+        ));
+    }
+
+    /**
      * @Route("/detalles/{equipo}", name="form_equipo", methods={"GET", "POST"})
      */
-    public function indexAction(Equipo $equipo, Request $request)
+    public function equipoDetalleAction(Equipo $equipo, Request $request)
     {
         $em = $this->getDoctrine()->getManager();
 
@@ -75,7 +89,7 @@ class EquipoController extends Controller
             $em->flush();
 
             $this->addFlash('success', 'Cambios guardados con éxito');
-            return $this->redirectToRoute('form_equipo', ['equipo' => $equipo->getId()]);
+            return $this->redirectToRoute('lista_equipo');
         }
         return $this->render('equipo/form.html.twig', array(
             'form' => $form->createView(),
