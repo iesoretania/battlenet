@@ -29,10 +29,13 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
+/**
+ * @Route("/equipo")
+ */
 class EquipoController extends Controller
 {
     /**
-     * @Route("/equipo/detalles/{equipo}", name="form_equipo", methods={"GET", "POST"})
+     * @Route("/detalles/{equipo}", name="form_equipo", methods={"GET", "POST"})
      */
     public function indexAction(Equipo $equipo, Request $request)
     {
@@ -69,7 +72,7 @@ class EquipoController extends Controller
     }
 
     /**
-     * @Route("/equipo/puntuacion/{equipo}", name="anotaciones_equipo", methods={"GET", "POST"})
+     * @Route("/puntuacion/{equipo}", name="anotaciones_equipo", methods={"GET", "POST"})
      */
     public function anotacionIndexAction(Equipo $equipo, Request $request)
     {
@@ -82,7 +85,8 @@ class EquipoController extends Controller
 
         $anotacion = new Anotacion();
         $anotacion
-            ->setEquipo($equipo);
+            ->setEquipo($equipo)
+            ->setFechaHora(new \DateTime());
 
         $formPersonalizado = $this->createForm('AppBundle\Form\Type\AnotacionEquipoType', $anotacion);
         $formPersonalizado->handleRequest($request);
@@ -116,7 +120,7 @@ class EquipoController extends Controller
     }
 
     /**
-     * @Route("/equipo/emblema/{equipo}", name="emblema_equipo", methods={"GET"})
+     * @Route("/emblema/{equipo}", name="emblema_equipo", methods={"GET"})
      */
     public function getEmblemaAction(Equipo $equipo)
     {
@@ -126,5 +130,34 @@ class EquipoController extends Controller
         $response = new StreamedResponse($callback);
         $response->headers->set('Content-Type', 'application/octet-stream');
         return $response;
+    }
+
+    /**
+     * @Route("/anotacion/{anotacion}", name="form_anotacion", methods={"GET", "POST"})
+     */
+    public function modificarAnotacionAction(Anotacion $anotacion, Request $request)
+    {
+        $em = $this->getDoctrine()->getManager();
+
+        $form = $this->createForm('AppBundle\Form\Type\AnotacionType', $anotacion);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            if ($request->request->has('borrar')) {
+                $em->remove($anotacion);
+                $this->addFlash('success', 'Puntuación eliminada con éxito');
+            } else {
+                $this->addFlash('success', 'Cambios guardados con éxito');
+            }
+            // Guardar la anotación en la base de datos
+            $em->flush();
+
+            return $this->redirectToRoute('anotaciones_equipo', ['equipo' => $anotacion->getEquipo()->getId()]);
+        }
+        return $this->render('anotacion/form.html.twig', array(
+            'form' => $form->createView(),
+            'anotacion' => $anotacion
+        ));
     }
 }

@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block title "Detalle de la puntuación" %}
+
+{% block content %}
+    <h1 class="well">Detalle de la puntuación</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="form-group">
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <button type="submit" class="btn btn-success"><i class="fa fa-check"></i> Guardar cambios</button>
+            <button type="submit" class="btn btn-danger" name="borrar"><i class="fa fa-close"></i> Eliminar puntuación</button>
+            <a href="{{ path('anotaciones_equipo', {'equipo': anotacion.equipo.id}) }}" class="btn btn-info"><i class="fa fa-arrow-left"></i> Volver al equipo</a>
+        </div>
+    </div>
+    {{ form_end(form) }}
+{% endblock %}

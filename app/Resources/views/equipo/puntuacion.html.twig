@@ -21,10 +21,10 @@
             <tbody>
             {% for anotacion in equipo.anotaciones %}
                 <tr>
-                    <td>{{ anotacion.fechaHora | date('d/m/Y H:m:s') }}</td>
+                    <td>{{ anotacion.fechaHora | date('d/m/Y H:i:s') }}</td>
                     <td>{{ anotacion.concepto }}</td>
                     <td>{{ (anotacion.puntuacion > 0 ? '+') ~ anotacion.puntuacion }}</td>
-                    <td><a href="" class="btn btn-xs btn-warning"><i class="fa fa-pencil"> Modificar</i></a></td>
+                    <td><a href="{{ path('form_anotacion', {'anotacion': anotacion.id}) }}" class="btn btn-xs btn-warning"><i class="fa fa-pencil"> Modificar</i></a></td>
                 </tr>
             {% else %}
                 <tr>
