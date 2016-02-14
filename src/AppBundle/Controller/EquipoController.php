@@ -54,7 +54,7 @@ class EquipoController extends Controller
     {
         $em = $this->getDoctrine()->getManager();
 
-        $form = $this->createForm('AppBundle\Form\Type\EquipoType', $equipo, [
+        $form = $this->createForm('AppBundle\Form\Type\EquipoFormularioType', $equipo, [
             'new' => false
         ]);
 
