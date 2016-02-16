@@ -48,14 +48,21 @@ class EquipoController extends Controller
     }
 
     /**
+     * @Route("/nuevo", name="nuevo_equipo", methods={"GET", "POST"})
      * @Route("/detalles/{equipo}", name="form_equipo", methods={"GET", "POST"})
      */
-    public function equipoDetalleAction(Equipo $equipo, Request $request)
+    public function equipoDetalleAction(Equipo $equipo = null, Request $request)
     {
+        if (null === $equipo) {
+            $equipo = new Equipo();
+            $new = true;
+        } else {
+            $new = false;
+        }
         $em = $this->getDoctrine()->getManager();
 
         $form = $this->createForm('AppBundle\Form\Type\EquipoFormularioType', $equipo, [
-            'new' => false
+            'new' => $new
         ]);
 
         $form->handleRequest($request);
