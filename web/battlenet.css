@@ -82,6 +82,12 @@ img#logo {
     margin-right: auto;
 }
 
+.derecha {
+    display: block;
+    margin-left: auto;
+    margin-right: 0;
+}
+
 div.botones {
     width: 840px;
     height:46px;
