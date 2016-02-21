@@ -1,0 +1,18 @@
+{% extends 'layout.html.twig' %}
+
+{% block title "Presentación - Star Wars BattleNet" %}
+
+{% block override %}
+<body class="portada">
+    <div class="container portada">
+        <img src="{{ asset('imagenes/logo.png') }}" id="logo" alt="Logo competición">
+        <img class="centrado" width="400" src="{{ asset('imagenes/logo_oretania.jpg') }}" alt="Logo I.E.S. Oretania">
+        <p></p>
+        <iframe class="centrado" width="840" height="473" src="https://www.youtube.com/embed/VnWd3IqzI_E" frameborder="0" allowfullscreen></iframe>
+        <div class="botones">
+            <a class="btn btn-info btn-lg col-sm-6 portada" href="{{ asset('recursos/Normas_Battlenet_2015_16.pdf') }}"><i class="fa fa-newspaper-o"></i> Descargar las normas</a>
+            <a class="btn btn-success btn-lg col-sm-6 portada" href="{{ path('form_registro') }}"><i class="fa fa-pencil"></i> Inscripción de equipos</a>
+        </div>
+    </div>
+</body>
+{% endblock %}

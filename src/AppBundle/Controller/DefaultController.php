@@ -29,7 +29,12 @@ class DefaultController extends Controller
      */
     public function indexAction()
     {
-        return $this->marcadorAction();
+        // remitir a la clasificación si estamos compitiendo
+        if ($this->getParameter('compitiendo')) {
+            return $this->redirectToRoute('marcador');
+        }
+
+        return $this->render('default/index.html.twig');
     }
 
     /**
