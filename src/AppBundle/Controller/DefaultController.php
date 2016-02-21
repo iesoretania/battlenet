@@ -25,7 +25,15 @@ class DefaultController extends Controller
     }
 
     /**
-     * @Route("/", name="marcador")
+     * @Route("/", name="portada")
+     */
+    public function indexAction()
+    {
+        return $this->marcadorAction();
+    }
+
+    /**
+     * @Route("/clasificacion", name="marcador")
      */
     public function marcadorAction()
     {
