@@ -53,7 +53,8 @@ class InicialData extends AbstractFixture implements OrderedFixtureInterface
             ['Construcción del servidor FTP (Arsenal) y la bomba lógica', 500],
             ['Construcción del servidor web (Escudo) con los datos de acceso', 500],
             ['Construcción del servidor Núcleo', 500],
-            ['Base StarKiller enemiga destruída', 5000]
+            ['Base StarKiller enemiga destruida', 5000],
+            ['Base StarKiller propia destruida por el enemigo', -1000]
         ];
 
         foreach($conceptos as $datos) {
