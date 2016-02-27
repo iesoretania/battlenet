@@ -37,8 +37,7 @@ class RegistroEquipoType extends EquipoType
                 'mapped' => false,
                 'constraints' => [
                     new Length([
-                        'min' => 8,
-                        'max' => 8
+                        'min' => 8
                     ]),
                     new ValidToken()
                 ]
