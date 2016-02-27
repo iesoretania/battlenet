@@ -33,7 +33,7 @@ class EquipoRepository extends EntityRepository
             ->select('e AS equipo')
             ->addSelect('SUM(a.puntuacion) AS puntos')
             ->leftJoin('AppBundle:Anotacion', 'a', 'WITH', 'e.id = a.equipo')
-            ->groupBy('a.equipo');
+            ->groupBy('e');
 
         return $tablero;
     }
